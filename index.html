@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中华巴洛克纹样数据库</title>
+    <style>
+        /* 导览页样式 */
+        #introPage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('封面.png') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 80px;
+            z-index: 1000;
+            transition: opacity 1s ease-out;
+        }
+        
+        .intro-content {
+            text-align: center;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            margin-bottom: 60px;
+        }
+        
+        .intro-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 8px;
+        }
+        
+        .intro-subtitle {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            letter-spacing: 5px;
+        }
+        
+        .enter-btn {
+            padding: 18px 50px;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+        
+        .enter-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, #A0522D 0%, #8B4513 100%);
+        }
+
+        /* 主页面样式 - 初始隐藏 */
+        #mainContent {
+            display: none;
+        }
+
+        /* 主页面原有样式 */
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #D2B48C;
+            --accent-color: #A0522D;
+            --light-bg: #FFF8DC;
+            --dark-bg: #F5E8C8;
+            --text-color: #333;
+            --card-bg: #FFFFFF;
+            --header-bg: #8B4513;
+            --shadow: 0 4px 12px rgba(139, 69, 19, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SimSun', 'Noto Serif SC', 'Microsoft YaHei', serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background: linear-gradient(135deg, var(--light-bg) 0%, var(--dark-bg) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, var(--header-bg) 0%, var(--primary-color) 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: bold;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 1rem 2rem;
+            border: 2px solid var(--primary-color);
+            background: var(--card-bg);
+            color: var(--primary-color);
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.2);
+        }
+
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .pattern-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 2px solid var(--secondary-color);
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(139, 69, 19, 0.25);
+            border-color: var(--accent-color);
+        }
+
+        .image-switcher {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+
+        .pattern-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: var(--light-bg);
+            transition: opacity 0.3s ease;
+        }
+
+        .real-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: var(--light-bg);
+            transition: opacity 0.3s ease;
+        }
+
+        .image-switch-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 0.5rem 1rem;
+            background: rgba(139, 69, 19, 0.8);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .image-switch-btn:hover {
+            background: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .pattern-image[src*=".png"] {
+            background: linear-gradient(45deg, #f5f5f5 25%, transparent 25%, transparent 75%, #f5f5f5 75%),
+                        linear-gradient(45deg, #f5f5f5 25%, transparent 25%, transparent 75%, #f5f5f5 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        .pattern-content {
+            padding: 2rem;
+        }
+
+        .pattern-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            font-weight: bold;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 1rem;
+        }
+
+        .pattern-description {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .pattern-download {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-color);
+            margin-right: 1rem;
+        }
+
+        .pattern-download:hover {
+            background: transparent;
+            color: var(--primary-color);
+            transform: translateX(8px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 5rem;
+            padding: 3rem 0;
+            color: #7F8C8D;
+            border-top: 3px solid var(--secondary-color);
+            background: var(--light-bg);
+            border-radius: 15px;
+        }
+
+        .footer p {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pattern-card {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .image-error {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--light-bg) 100%);
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .patterns-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .category-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .category-btn {
+                width: 250px;
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+            
+            .image-switcher {
+                height: 250px;
+            }
+            
+            .intro-title {
+                font-size: 2.5rem;
+            }
+            
+            .intro-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .enter-btn {
+                padding: 15px 35px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导览页 -->
+    <div id="introPage">
+        <div class="intro-content">
+            <h1 class="intro-title">尔滨·宝藏</h1>
+            <h2 class="intro-subtitle">青创纪</h2>
+        </div>
+        <button class="enter-btn" onclick="enterMainPage()">让我们一起领略纹样的魅力吧</button>
+    </div>
+
+    <!-- 主内容页 -->
+    <div id="mainContent">
+        <div class="container">
+            <div class="header">
+                <h1>中华巴洛克纹样数据库</h1>
+                <p>探索传统建筑中的精美纹样，感受中西文化交融的艺术魅力</p>
+                <p style="margin-top: 1rem; font-size: 1rem; opacity: 0.8;">尔滨宝藏团队 呈现</p>
+            </div>
+
+            <div class="category-nav">
+                <button class="category-btn active" onclick="filterPatterns('all')">全部纹样</button>
+                <button class="category-btn" onclick="filterPatterns('plant')">植物纹样</button>
+                <button class="category-btn" onclick="filterPatterns('animal')">动物纹样</button>
+                <button class="category-btn" onclick="filterPatterns('geometric')">几何纹样</button>
+            </div>
+
+            <div class="patterns-grid" id="patternsContainer">
+                <!-- 纹样卡片将通过JavaScript动态生成 -->
+            </div>
+
+            <div class="footer">
+                <p>最后更新日期：2025-09-05 | 尔滨宝藏团队 © 2024</p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">指导教师：夏雷 衣霄翔 刘羿伯</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 纹样数据
+        const patternsData = [
+            {
+                "category": "植物",
+                "name": "牡丹纹",
+                "image_path": "images/plant_peony.png",
+                "real_photo": "images/real_peony.png",
+                "description": "富贵荣华、繁荣昌盛是牡丹最核心、最广为人知的寓意，牡丹花型硕大饱满、色彩艳丽，天然给人以富丽堂皇之感",
+                "file_path": "files/peony.psd",
+                "file_text": "牡丹纹矢量文件"
+            },
+            {
+                "category": "植物",
+                "name": "葡萄纹",
+                "image_path": "images/plant_grape.png",
+                "real_photo": "images/real_grape.png",
+                "description": "葡萄果实成串，颗粒繁多且饱满，天然成为生育力、子孙绵延、家族兴旺的绝佳象征，多子多福，家族兴盛",
+                "file_path": "files/grape.psd",
+                "file_text": "葡萄纹矢量文件"
+            },
+            {
+                "category": "植物", 
+                "name": "莲花纹",
+                "image_path": "images/plant_lotus.png",
+                "real_photo": "images/real_lotus.png",
+                "description": "纯净无染、超脱世俗是荷花最本质的象征，莲花生于淤泥沼泽，却开洁净之花，散发清香",
+                "file_path": "files/lotus.psd",
+                "file_text": "莲花纹矢量文件"
+            },
+            {
+                "category": "植物",
+                "name": "月桂纹",
+                "image_path": "images/plant_bay_laurel.png",
+                "real_photo": "images/real_bay_laurel.png",
+                "description": "月桂纹样常用来象征成功、成就、认可和至高荣誉，代表通过努力和胜利赢得的安宁状态",
+                "file_path": "files/bay_laurel.psd",
+                "file_text": "月桂纹矢量文件"
+            },
+            {
+                "category": "植物",
+                "name": "茛苕纹",
+                "image_path": "images/plant_acanthus.png",
+                "real_photo": "images/real_acanthus.png",
+                "description": "茛苕最核心、最古老的象征意义是永生，重生与不朽，其茂盛、卷曲、充满生机的形态让人联想到生长、繁荣和丰饶",
+                "file_path": "files/acanthus.psd",
+                "file_text": "茛苕纹矢量文件"
+            },
+            {
+                "category": "动物",
+                "name": "蝙蝠纹",
+                "image_path": "images/animal_bat.png",
+                "real_photo": "images/real_bat.png",
+                "description": "蝙蝠最核心、最深厚的象征意义是'福气盈门'与'吉祥如意'，其倒悬栖息被赋予了'福到（倒）'与'化险为夷'的深刻内涵",
+                "file_path": "files/bat.psd",
+                "file_text": "蝙蝠纹矢量文件"
+            },
+            {
+                "category": "动物",
+                "name": "羊纹",
+                "image_path": "images/animal_sheep.png",
+                "real_photo": "images/real_sheep.png",
+                "description": "'三阳开泰'是万象更新、兴旺发达的象征，是吉祥文化的典型体现，蕴含生机勃勃的意思",
+                "file_path": "files/sheep.psd",
+                "file_text": "羊纹矢量文件"
+            },
+            {
+                "category": "动物",
+                "name": "鱼纹",
+                "image_path": "images/animal_fish.png",
+                "real_photo": "images/real_fish.png",
+                "description": "鱼象征盈余积累，祈愿家财岁岁丰足，莲花应四时，鱼水共生，寓意福运连年不绝",
+                "file_path": "files/fish.psd",
+                "file_text": "鱼纹矢量文件"
+            },
+            {
+                "category": "动物",
+                "name": "凤纹",
+                "image_path": "images/animal_phoenix.png",
+                "real_photo": "images/real_phoenix.png",
+                "description": "'丹凤朝阳'是中国传统吉祥图案之一，寓有完美、吉祥、前途光明的含义，象征美好、幸福",
+                "file_path": "files/phoenix.psd",
+                "file_text": "凤纹矢量文件"
+            },
+            {
+                "category": "动物",
+                "name": "鹿鹤纹",
+                "image_path": "images/animal_deercrane.png",
+                "real_photo": "images/real_deercrane.png",
+                "description": "'鹿鹤同春'作为中国传统吉祥纹饰，寄寓着对普天之下春意盎然的赞美，传递出延年寿、福禄双至的祥瑞祝福",
+                "file_path": "files/deer_crane.psd",
+                "file_text": "鹿鹤纹矢量文件"
+            },
+            {
+                "category": "几何",
+                "name": "方胜纹",
+                "image_path": "images/geometric_fangsheng_pattern.png",
+                "real_photo": "images/real_fangsheng.jpg",
+                "description": "方胜纹具有同心相连的形态、对称连续的结构，表达了人们对幸福生活、美满婚姻的渴求和希冀",
+                "file_path": "files/fangsheng_pattern.psd",
+                "file_text": "方胜纹矢量文件"
+            },
+            {
+                "category": "几何",
+                "name": "寿字纹",
+                "image_path": "images/geometric_shou_pattern.png",
+                "real_photo": "images/real_shou.png",
+                "description": "寿字纹的核心象征是'长寿安康'，字形圆融无角代表'福寿圆满'，长形篆体则寓意'寿比南山'",
+                "file_path": "files/shou.psd",
+                "file_text": "寿字纹矢量文件"
+            },
+            {
+                "category": "几何",
+                "name": "宝瓶纹",
+                "image_path": "images/geometric_aquarius.png",
+                "real_photo": "images/real_aquarius.png",
+                "description": "在西方文化中，宝瓶纹的核心象征是'丰饶'与'神圣'，若瓶中盛满葡萄或花卉，则象征丰收与繁荣；若搭配橄榄枝或和平鸽，则带有和平与希望的寓意",
+                "file_path": "files/aquarius.psd",
+                "file_text": "宝瓶纹矢量文件"
+            },
+            {
+                "category": "几何",
+                "name": "贝壳纹",
+                "image_path": "images/geometric_seashell.png",
+                "real_photo": "images/real_seashell.png",
+                "description": "贝壳纹的核心象征是'财富'与'庇护'，其天然螺旋结构代表'生生不息'，内壁光滑的质感象征'聚财纳福'",
+                "file_path": "files/seashell.psd",
+                "file_text": "贝壳纹矢量文件"
+            },
+            {
+                "category": "几何",
+                "name": "铜钱纹",
+                "image_path": "images/geometric_coins_pattern.png",
+                "real_photo": "images/real_coins.png",
+                "description": "铜钱纹的核心寓意是'财富'与'流通'，外圆内方的造型象征'天圆地方'，成串出现时代表'连绵不绝'的财运",
+                "file_path": "files/coin_pattern.psd",
+                "file_text": "铜钱纹矢量文件"
+            }
+        ];
+
+        // 进入主页面
+        function enterMainPage() {
+            const introPage = document.getElementById('introPage');
+            const mainContent = document.getElementById('mainContent');
+            
+            // 淡出导览页
+            introPage.style.opacity = '0';
+            
+            // 显示主页面
+            setTimeout(() => {
+                introPage.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                // 初始化纹样数据
+                renderPatterns();
+            }, 1000);
+        }
+        
+        // 渲染纹样数据
+        function renderPatterns() {
+            const container = document.getElementById('patternsContainer');
+            let html = '';
+            
+            patternsData.forEach((pattern, index) => {
+                let categoryClass = 'all';
+                if (pattern.category === '植物') categoryClass = 'plant';
+                else if (pattern.category === '动物') categoryClass = 'animal';
+                else if (pattern.category === '几何') categoryClass = 'geometric';
+                
+                html += `
+                    <div class="pattern-card" data-category="${categoryClass}">
+                        <div class="image-switcher" id="image-switcher-${index}">
+                            <img src="${pattern.image_path}" class="pattern-image" alt="${pattern.name}纹样图"
+                                 onerror="handleImageError(this, 'pattern')">
+                            <img src="${pattern.real_photo}" class="real-photo hidden" alt="${pattern.name}实物照片"
+                                 onerror="handleImageError(this, 'real')">
+                            <button class="image-switch-btn" onclick="switchImage(${index})">查看实物照片</button>
+                            <div class="image-error hidden">
+                                <span>图片加载失败</span>
+                            </div>
+                        </div>
+                        <div class="pattern-content">
+                            <h3 class="pattern-title">${pattern.name}</h3>
+                            <p class="pattern-description">${pattern.description}</p>
+                            <div>
+                                <a href="${pattern.file_path}" class="pattern-download" 
+                                   onclick="return checkFileExists('${pattern.file_path}', event)">
+                                    ${pattern.file_text}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // 图片切换功能
+        function switchImage(index) {
+            const switcher = document.getElementById('image-switcher-' + index);
+            const patternImage = switcher.querySelector('.pattern-image');
+            const realPhoto = switcher.querySelector('.real-photo');
+            const switchBtn = switcher.querySelector('.image-switch-btn');
+            
+            if (patternImage.classList.contains('hidden')) {
+                // 当前显示实物照片，切换回纹样图
+                patternImage.classList.remove('hidden');
+                realPhoto.classList.add('hidden');
+                switchBtn.textContent = '查看实物照片';
+            } else {
+                // 当前显示纹样图，切换到实物照片
+                patternImage.classList.add('hidden');
+                realPhoto.classList.remove('hidden');
+                switchBtn.textContent = '查看纹样图';
+            }
+        }
+        
+        // 图片加载错误处理
+        function handleImageError(img, type) {
+            img.style.display = 'none';
+            const errorDiv = img.parentElement.querySelector('.image-error');
+            if (errorDiv) {
+                errorDiv.classList.remove('hidden');
+                if (type === 'real') {
+                    errorDiv.querySelector('span').textContent = '实物照片加载失败';
+                }
+            }
+            
+            // 如果实物照片加载失败，隐藏切换按钮
+            if (type === 'real') {
+                const switchBtn = img.parentElement.querySelector('.image-switch-btn');
+                if (switchBtn) {
+                    switchBtn.style.display = 'none';
+                }
+            }
+        }
+        
+        // 分类筛选功能
+        function filterPatterns(category) {
+            const buttons = document.querySelectorAll('.category-btn');
+            const cards = document.querySelectorAll('.pattern-card');
+            
+            // 更新按钮状态
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 筛选卡片
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (category === 'all' || cardCategory === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // 检查文件是否存在
+        function checkFileExists(filePath, event) {
+            // 这里可以添加文件存在性检查逻辑
+            // 暂时直接允许下载
+            return true;
+        }
+    </script>
+</body>
+</html>
