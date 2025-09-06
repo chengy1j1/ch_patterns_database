@@ -68,6 +68,139 @@
             display: none;
         }
 
+        /* 详情页面样式 - 初始隐藏 */
+        #detailContent {
+            display: none;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 详情页头部 */
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #D2B48C;
+        }
+
+        .detail-title {
+            font-size: 2.5rem;
+            color: #8B4513;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            padding: 0.8rem 1.5rem;
+            background: #8B4513;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #A0522D;
+            transform: translateX(-5px);
+        }
+
+        /* 详情内容 */
+        .detail-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 900px) {
+            .detail-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .detail-images {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* 修改图片背景为纯色 */
+        .detail-image {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            border: 2px solid #D2B48C;
+            border-radius: 10px;
+            background: #f8f5f0; /* 改为纯色背景 */
+            padding: 10px;
+        }
+
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .detail-info {
+            background: #FFF8DC;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.15);
+        }
+
+        .info-section {
+            margin-bottom: 2rem;
+        }
+
+        .info-title {
+            font-size: 1.5rem;
+            color: #8B4513;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #D2B48C;
+        }
+
+        .info-content {
+            line-height: 1.8;
+            color: #333;
+        }
+
+        /* 移除地图位置显示 */
+        .location-map {
+            display: none; /* 隐藏地图位置 */
+        }
+
+        .download-section {
+            text-align: center;
+            padding: 2rem;
+            background: #F5E8C8;
+            border-radius: 15px;
+        }
+
+        .download-btn {
+            padding: 1rem 2.5rem;
+            background: #8B4513;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .download-btn:hover {
+            background: #A0522D;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(139, 69, 19, 0.3);
+        }
+
         /* 主页面原有样式 */
         :root {
             --primary-color: #8B4513;
@@ -168,6 +301,7 @@
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
             border: 2px solid var(--secondary-color);
+            cursor: pointer;
         }
 
         .pattern-card:hover {
@@ -220,11 +354,9 @@
             transform: scale(1.05);
         }
 
+        /* 修改主页图片背景为纯色 */
         .pattern-image[src*=".png"] {
-            background: linear-gradient(45deg, #f5f5f5 25%, transparent 25%, transparent 75%, #f5f5f5 75%),
-                        linear-gradient(45deg, #f5f5f5 25%, transparent 25%, transparent 75%, #f5f5f5 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
+            background: #f8f5f0; /* 改为纯色背景 */
         }
 
         .pattern-content {
@@ -336,6 +468,10 @@
                 padding: 0.8rem 1.5rem;
             }
             
+            .pattern-card {
+                margin: 0 0.5rem;
+            }
+            
             .image-switcher {
                 height: 250px;
             }
@@ -352,6 +488,14 @@
                 padding: 15px 35px;
                 font-size: 1.2rem;
             }
+
+            .detail-title {
+                font-size: 2rem;
+            }
+
+            .detail-body {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -360,7 +504,7 @@
     <div id="introPage">
         <div class="intro-content">
             <h1 class="intro-title">尔滨·宝藏</h1>
-            <h2 class="intro-subtitle">青创纪</h2>
+            <h2 class="intro-subtitle">青创纪 </h2>
         </div>
         <button class="enter-btn" onclick="enterMainPage()">让我们一起领略纹样的魅力吧</button>
     </div>
@@ -386,104 +530,169 @@
             </div>
 
             <div class="footer">
-                <p>最后更新日期：2025-09-05 | 尔滨宝藏团队 © 2024</p>
+                <p>最后更新日期：2025-09-06 | 尔滨宝藏团队 © 2025</p>
                 <p style="margin-top: 0.5rem; font-size: 0.9rem;">指导教师：夏雷 衣霄翔 刘羿伯</p>
             </div>
         </div>
     </div>
 
+    <!-- 详情页面 -->
+    <div id="detailContent">
+        <div class="detail-header">
+            <h2 class="detail-title" id="detailPatternName">纹样名称</h2>
+            <button class="back-btn" onclick="backToMain()">返回列表</button>
+        </div>
+
+        <div class="detail-body">
+            <div class="detail-images">
+                <div>
+                    <img id="detailPatternImage" class="detail-image" src="" alt="纹样图">
+                    <p class="image-caption">纹样图案</p>
+                </div>
+                <div>
+                    <img id="detailRealPhoto" class="detail-image" src="" alt="实物照片">
+                    <p class="image-caption">建筑实物照片</p>
+                </div>
+            </div>
+
+            <div class="detail-info">
+                <div class="info-section">
+                    <h3 class="info-title">纹样寓意</h3>
+                    <p class="info-content" id="detailDescription">纹样寓意描述将显示在这里</p>
+                </div>
+
+                <div class="info-section">
+                    <h3 class="info-title">建筑位置</h3>
+                    <p class="info-content" id="detailLocation">纹样所处的建筑位置信息将显示在这里</p>
+                    <!-- 移除了地图位置显示 -->
+                </div>
+
+                <div class="info-section">
+                    <h3 class="info-title">文化背景</h3>
+                    <p class="info-content" id="detailCulture">纹样的文化背景和历史渊源将显示在这里</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <h3 class="info-title">下载纹样矢量图</h3>
+            <p class="info-content">点击下方按钮下载该纹样的高质量矢量文件，可用于设计和研究</p>
+            <a id="detailDownload" href="#" class="download-btn">下载矢量文件</a>
+        </div>
+    </div>
+
     <script>
-        // 纹样数据
+        // 扩展纹样数据，添加建筑位置和文化背景信息
         const patternsData = [
             {
                 "category": "植物",
                 "name": "牡丹纹",
                 "image_path": "images/plant_peony.png",
                 "real_photo": "images/real_peony.png",
-                "description": "富贵荣华、繁荣昌盛是牡丹最核心、最广为人知的寓意，牡丹花型硕大饱满、色彩艳丽，天然给人以富丽堂皇之感",
+                "description": "富贵荣华、繁荣昌盛是牡丹最核心、最广为人知的寓意， 牡丹花型硕大饱满、色彩艳丽（尤其以红色、粉色为尊）、姿态雍容华贵，天然给人以富丽堂皇之感，故常引申用于表达对国家繁荣、家族兴旺、事业成功、生活富足的美好祝愿，如'花开富贵''富贵吉祥''国色天香'等词语都直接与牡丹挂钩。",
                 "file_path": "files/peony.psd",
-                "file_text": "牡丹纹矢量文件"
+                "file_text": "牡丹纹矢量文件",
+                "location": "中亚金行墙面牡丹装饰",
+                "culture": "唐代社会风气开放，崇尚丰腴华美。牡丹以其硕大艳丽、富丽堂皇的气质，完美契合了盛唐的审美理想，受到皇室和贵族阶层的狂热追捧，刘禹锡更有诗词'唯有牡丹真国色，花开时节动京城'，牡丹富贵繁荣的意象由此而来。"
             },
             {
                 "category": "植物",
                 "name": "葡萄纹",
                 "image_path": "images/plant_grape.png",
                 "real_photo": "images/real_grape.png",
-                "description": "葡萄果实成串，颗粒繁多且饱满，天然成为生育力、子孙绵延、家族兴旺的绝佳象征，多子多福，家族兴盛",
+                "description": "葡萄以及其纹样通过丝绸之路传入中国，时间大约在汉代。魏晋南北朝时期葡萄作为珍稀的异域水果和装饰题材开始出现在艺术中。唐朝国力强盛，对外开放包容，胡风盛行。葡萄纹样迎来了在中国发展的高峰，葡萄作为典型的胡物，其纹样带有浓郁的异域色彩，深受当时追求新奇、富丽的社会风尚喜爱。",
                 "file_path": "files/grape.psd",
-                "file_text": "葡萄纹矢量文件"
+                "file_text": "葡萄纹矢量文件",
+                "location": "南勋街335号墙面葡萄装饰",
+                "culture": "葡萄以及其纹样通过丝绸之路传入中国，时间大约在汉代。魏晋南北朝时期葡萄作为珍稀的异域水果和装饰题材开始出现在艺术中。唐朝国力强盛，对外开放包容，胡风盛行。葡萄纹样迎来了在中国发展的高峰，葡萄作为典型的胡物，其纹样带有浓郁的异域色彩，深受当时追求新奇、富丽的社会风尚喜爱。"
             },
             {
                 "category": "植物", 
                 "name": "莲花纹",
                 "image_path": "images/plant_lotus.png",
                 "real_photo": "images/real_lotus.png",
-                "description": "纯净无染、超脱世俗是荷花最本质的象征，莲花生于淤泥沼泽，却开洁净之花，散发清香",
+                "description": "纯净无染、超脱世俗是荷花最本质的象征， 莲花生于淤泥沼泽，却开洁净之花，散发清香。这种独特的生长方式使其成为精神纯洁、道德高尚、不受尘世污染的完美象征。在儒家文化中，代表君子洁身自好、刚正不阿的品格，普遍用于表达对高尚人格、清廉操守的赞美和追求。同时，莲花多籽，也带有多子多福、世代绵延的寓意。",
                 "file_path": "files/lotus.psd",
-                "file_text": "莲花纹矢量文件"
+                "file_text": "莲花纹矢量文件",
+                "location": "靖宇街398号商住楼建筑表面莲花装饰",
+                "culture": "莲花文化在我国有悠久的历史，《诗经》中对荷花的描写为“山有扶苏，隰与荷花”，“彼泽之陂，有蒲有荷”。春秋时期，青铜工艺珍品莲鹤方壶就对荷花就有了详细的纹样刻画，荷花花纹形象，龙和螭跃跃欲动。由此可见，早在春秋时期，荷花便与被神化的龙、螭及仙鹤一样，成为人们心目中崇高圣洁的象征。"
             },
             {
-                "category": "植物",
+                "category": "植物", 
                 "name": "月桂纹",
-                "image_path": "images/plant_bay_laurel.png",
-                "real_photo": "images/real_bay_laurel.png",
-                "description": "月桂纹样常用来象征成功、成就、认可和至高荣誉，代表通过努力和胜利赢得的安宁状态",
-                "file_path": "files/bay_laurel.psd",
-                "file_text": "月桂纹矢量文件"
+                "image_path": "images/plant_baylaurel.png",
+                "real_photo": "images/real_baylaurel.png",
+                "description": "月桂纹样常用来象征成功、成就、认可和至高荣誉。同时，当战争英雄凯旋归来，佩戴月桂花冠，标志着冲突结束、和平降临。 在这个意义上，月桂也代表着通过努力和胜利赢得的安宁状态。",
+                "file_path": "files/bay_laurel.psd", // 修复了这里的文件路径
+                "file_text": "月桂纹矢量文件",
+                "location": "中亚金行墙面月桂装饰",
+                "culture": "月桂对于人们而言最深刻的印象直接源于古希腊罗马时期授予竞技冠军、战争英雄和杰出诗人的月桂花冠。佩戴月桂花冠（桂冠）是至高荣誉的象征，代表着在竞赛、战场或艺术领域取得的卓越成就和公认的胜利。"
             },
             {
                 "category": "植物",
                 "name": "茛苕纹",
                 "image_path": "images/plant_acanthus.png",
                 "real_photo": "images/real_acanthus.png",
-                "description": "茛苕最核心、最古老的象征意义是永生，重生与不朽，其茂盛、卷曲、充满生机的形态让人联想到生长、繁荣和丰饶",
+                "description": "茛苕最核心、最古老的象征意义是永生，重生与不朽，茛苕在贫瘠、石缝甚至废墟中都能蓬勃生长的特性，使其成为生命战胜逆境、永恒延续的绝佳象征。其茂盛、卷曲、充满生机的形态，也自然地让人联想到生长、繁荣和丰饶。",
                 "file_path": "files/acanthus.psd",
-                "file_text": "茛苕纹矢量文件"
+                "file_text": "茛苕纹矢量文件",
+                "location": "靖宇街261-265号建筑茛苕装饰",
+                "culture": "关于茛苕纹样最著名传说与科林斯柱式的发明有关，古罗马建筑师维特鲁威记载，雕塑家卡利马库斯看到一位科林斯少女的坟墓上放着一个篮子，里面装着她的遗物，篮子恰好盖在一块茛苕叶上。春风中，茛苕叶卷曲着从篮子边缘生长出来。这种充满生命力的景象打动了他，启发他设计了以茛苕叶为装饰的科林斯柱头。"
             },
             {
                 "category": "动物",
                 "name": "蝙蝠纹",
                 "image_path": "images/animal_bat.png",
                 "real_photo": "images/real_bat.png",
-                "description": "蝙蝠最核心、最深厚的象征意义是'福气盈门'与'吉祥如意'，其倒悬栖息被赋予了'福到（倒）'与'化险为夷'的深刻内涵",
+                "description": "蝙蝠最核心、最深厚的象征意义是福气盈门与吉祥如意。其倒悬栖息、于黑暗中穿梭自如的姿态，被赋予了“福到（倒）”与化险为夷、否极泰来的深刻内涵。其群居习性及繁盛的生命力，也使其成为家族兴旺、子孙绵延、多子多福的生动隐喻。在中国传统装饰艺术中，五只蝙蝠环绕的'五福捧寿'图案，更是将长寿、富贵、康宁、好德、善终这五种人间至福集于一身，成为对圆满人生的极致祈愿。",
                 "file_path": "files/bat.psd",
-                "file_text": "蝙蝠纹矢量文件"
+                "file_text": "蝙蝠纹矢量文件",
+                "location": "南勋街335号楼蝙蝠装饰",
+                "culture": "蝙蝠纹的起源可追溯至商代，那时玉器上便已出现了蝙蝠的形象。进入秦汉时期，出现了蝙蝠形柿蒂座连弧纹镜。巧妙地将传统的柿蒂纹与蝙蝠纹相结合，形成了独特的蝙蝠柿蒂纹。镜上还刻有汉代常用的吉祥铸纹长相思，毋相忘，常富贵，乐未央的铭文，这进一步印证了当时人们已将蝙蝠与富贵紧密相连。明清时期，蝙蝠纹盛行，清代皇室尤其推崇蝙蝠纹，努尔哈赤传说中因蝙蝠得救，故视其为吉祥天神。"
             },
             {
                 "category": "动物",
                 "name": "羊纹",
                 "image_path": "images/animal_sheep.png",
                 "real_photo": "images/real_sheep.png",
-                "description": "'三阳开泰'是万象更新、兴旺发达的象征，是吉祥文化的典型体现，蕴含生机勃勃的意思",
+                "description": "三阳照字面解析，可以直观的理解为三个太阳，“朝阳启明，其台光荧；正阳中天，其台宣朗；夕阳辉照，其台腾射。”蕴含生机勃勃的意思。三阳开泰是万象更新、兴旺发达的象征，是吉祥文化的典型体现。",
                 "file_path": "files/sheep.psd",
-                "file_text": "羊纹矢量文件"
+                "file_text": "羊纹矢量文件",
+                "location": "道外区向阳毛皮商店",
+                "culture": "羊因谐音祥，古作吉羊，被视为祥瑞符号，其图形广受认可。尤以三阳开泰意象为著——三羊仰日之形，既应《周易》泰卦阴消阳长之象，又喻冬去春生。此寓意见载于《宋史·乐志》“三阳交泰，日新惟良”，至明清演为经典组合图案，终成冬尽春回、万象更新的核心文化符号。"
             },
             {
                 "category": "动物",
                 "name": "鱼纹",
                 "image_path": "images/animal_fish.png",
                 "real_photo": "images/real_fish.png",
-                "description": "鱼象征盈余积累，祈愿家财岁岁丰足，莲花应四时，鱼水共生，寓意福运连年不绝",
+                "description": "鱼象征盈余积累，祈愿家财岁岁丰足，莲花应四时，鱼水共生，寓意福运连年不绝。其胖鲤戏莲的生动构图，将农耕文明对衣食有余的质朴追求，升华为最具烟火气的艺术符号。", // 修复了这里的引号
                 "file_path": "files/fish.psd",
-                "file_text": "鱼纹矢量文件"
+                "file_text": "鱼纹矢量文件",
+                "location": "南二街道47号原义顺成墙面装饰",
+                "culture": "连年有余吉祥纹样源自《诗经》鱼丽于罶的丰收意象，唐代铜镜已见鱼莲组合纹饰。至明清定型为童子抱鱼、鱼戏莲叶等经典构图，以鱼谐音余，莲喻连，象征岁岁丰盈。广泛用于年画、瓷器，尤以胖鲤配莲藕为典型，成为最具生活气息的吉祥符号。"
             },
             {
                 "category": "动物",
                 "name": "凤纹",
                 "image_path": "images/animal_phoenix.png",
                 "real_photo": "images/real_phoenix.png",
-                "description": "'丹凤朝阳'是中国传统吉祥图案之一，寓有完美、吉祥、前途光明的含义，象征美好、幸福",
+                "description": "丹凤朝阳是中国传统吉祥图案之一，丹凤为鸾的一种，首与翼皆赤。也是征兆吉祥的雕刻和民间年画题材，寓有完美、吉祥、前途光明的含义。《禽经》：“鸾，首翼赤曰丹凤。”凤，传说为鸟中之王，象征美好、幸福；丹凤向阳，太阳具光明之意。",
                 "file_path": "files/phoenix.psd",
-                "file_text": "凤纹矢量文件"
+                "file_text": "凤纹矢量文件",
+                "location": "南勋街335号装饰",
+                "culture": "丹凤朝阳源自《诗经》“凤凰鸣矣，于彼高冈”的祥瑞意象，汉代瓦当已见凤鸟朝日纹样。至明清定型为'丹凤朝阳'吉祥图案，以凤鸟昂首展翅向旭日的经典构图，象征贤才遇明主、盛世现祥瑞，广泛应用于建筑、织锦，成为重要文化符号。"
             },
             {
                 "category": "动物",
                 "name": "鹿鹤纹",
                 "image_path": "images/animal_deercrane.png",
                 "real_photo": "images/real_deercrane.png",
-                "description": "'鹿鹤同春'作为中国传统吉祥纹饰，寄寓着对普天之下春意盎然的赞美，传递出延年寿、福禄双至的祥瑞祝福",
+                "description": "鹿鹤同春作为中国传统吉祥纹饰的代表性图案之一，亦被称为六合同春。该图案巧妙地运用谐音象征手法，以鹿代指陆，鹤暗喻合，并配以繁花、苍松等象征春季的意象元素。其文化内涵源于古代'六合'所指的宇宙空间概念，通过艺术化的表现形式，寄寓着对普天之下春意盎然的赞美，既展现了人们对国泰民安的美好期许，又传递出延年寿、福禄双至的祥瑞祝福。",
                 "file_path": "files/deer_crane.psd",
-                "file_text": "鹿鹤纹矢量文件"
+                "file_text": "鹿鹤纹矢量文件",
+                "location": "南头道街79号女儿墙装饰",
+                "culture": "鹿鹤同春是中国传统吉祥纹样之一，其历史可追溯至宋代。据记载，宋徽宗被俘后曾奉命绘制《鹤鹿同春图》，可见这一主题在当时已有一定影响力。明代时，该纹样进一步发展，早期多以六只鹤象征六合，至晚明才逐渐演变为鹤、鹿双兽组合，并广泛应用于瓷器、玉雕等工艺品上，清代时，受宫廷审美影响，'鹤鹿同春'成为祝寿、贺喜的经典题材，御花园甚至专设鹿苑与鹤圈，以鹿鹤遥遥相对的布局呼应'六合同春'的吉祥寓意。"
             },
             {
                 "category": "几何",
@@ -492,45 +701,58 @@
                 "real_photo": "images/real_fangsheng.jpg",
                 "description": "方胜纹具有同心相连的形态、对称连续的结构，表达了人们对幸福生活、美满婚姻的渴求和希冀",
                 "file_path": "files/fangsheng_pattern.psd",
-                "file_text": "方胜纹矢量文件"
+                "file_text": "方胜纹矢量文件",
+                "location": "南三道街徐世昌总督府旧址墙面装饰",
+                "culture": "方胜纹是中国传统几何纹样，由两个菱形相叠而成，象征同心相连、胜利吉祥。在中华巴洛克建筑中，方胜纹常与西方几何图案结合，形成独特的装饰效果。"
             },
             {
                 "category": "几何",
                 "name": "寿字纹",
                 "image_path": "images/geometric_shou_pattern.png",
                 "real_photo": "images/real_shou.png",
-                "description": "寿字纹的核心象征是'长寿安康'，字形圆融无角代表'福寿圆满'，长形篆体则寓意'寿比南山'",
+                "description": "寿字纹的核心象征是长寿安康。其字形圆融无角（团寿）代表福寿圆满，长形篆体（长寿）则寓意寿比南山。若与五只蝙蝠组合（五福捧寿），象征多福多寿；若配以松鹤，则强化松鹤延年的吉祥内涵。",
                 "file_path": "files/shou.psd",
-                "file_text": "寿字纹矢量文件"
+                "file_text": "寿字纹矢量文件",
+                "location": "同义庆中外货店牛腿装饰",
+                "culture": "寿字纹的雏形可追溯至商周青铜器铭文中的寿字变体，但真正成为独立纹样始于汉代。宋代以后，受道教长生观念影响，寿字被艺术化设计，衍生出'百寿图'（百种不同写法）、团寿（圆形构图）等样式。明清时期，寿字纹与蝙蝠、仙桃等组合，成为祝寿礼器的标配，广泛用于瓷器、家具、服饰。"
             },
             {
                 "category": "几何",
                 "name": "宝瓶纹",
                 "image_path": "images/geometric_aquarius.png",
                 "real_photo": "images/real_aquarius.png",
-                "description": "在西方文化中，宝瓶纹的核心象征是'丰饶'与'神圣'，若瓶中盛满葡萄或花卉，则象征丰收与繁荣；若搭配橄榄枝或和平鸽，则带有和平与希望的寓意",
+                "description": "在西方文化中，宝瓶纹的核心象征是丰饶与神圣。若瓶中盛满葡萄或花卉，则象征丰收与繁荣；若搭配橄榄枝或和平鸽，则带有和平与希望的寓意。此外，宝瓶在西方纹章学中也作为承载者出现，象征传承与永恒。",
                 "file_path": "files/aquarius.psd",
-                "file_text": "宝瓶纹矢量文件"
+                "file_text": "宝瓶纹矢量文件",
+                "location": "同义庆中外货店墙面装饰",
+                "culture": "西方的宝瓶纹起源于古希腊陶器艺术，最初作为实用器皿的装饰出现，后逐渐演变为独立纹样。古希腊的双耳瓶和陶罐上常见植物、神话场景等浮雕装饰，而罗马时期则发展出更华丽的金属与玻璃宝瓶纹饰。文艺复兴时期，宝瓶纹被重新发掘，并广泛应用于建筑浮雕、家具镶嵌及绘画边框装饰。18世纪洛可可风格盛行时，宝瓶纹与卷草、花卉结合，形成繁复优雅的装饰风格。"
             },
             {
                 "category": "几何",
                 "name": "贝壳纹",
                 "image_path": "images/geometric_seashell.png",
                 "real_photo": "images/real_seashell.png",
-                "description": "贝壳纹的核心象征是'财富'与'庇护'，其天然螺旋结构代表'生生不息'，内壁光滑的质感象征'聚财纳福'",
+                "description": "贝壳纹的核心象征是财富与庇护。其天然螺旋结构代表生生不息；内壁光滑的质感象征聚财纳福。在佛教中，贝壳（法螺）寓意法音宣流；在民间，贝壳与孩童组合（如童子捧贝），则寄托子孙繁盛、家业丰厚的期盼。",
                 "file_path": "files/seashell.psd",
-                "file_text": "贝壳纹矢量文件"
+                "file_text": "贝壳纹矢量文件",
+                "location": "中亚金行墙面装饰",
+                "culture": "贝壳纹的运用可追溯至新石器时代的贝币文化，商周时期演变为青铜器上的海贝纹。唐宋以后，随着海上贸易兴盛，贝壳纹成为财富与远洋的象征，多见于外销瓷器。明清时期，受西洋艺术影响，贝壳纹与卷草、花卉结合，形成洛可可风格的装饰元素，广泛用于建筑（如西洋楼）、珐琅器等。"
             },
             {
                 "category": "几何",
                 "name": "铜钱纹",
                 "image_path": "images/geometric_coins_pattern.png",
                 "real_photo": "images/real_coins.png",
-                "description": "铜钱纹的核心寓意是'财富'与'流通'，外圆内方的造型象征'天圆地方'，成串出现时代表'连绵不绝'的财运",
+                "description": "铜钱纹的核心寓意是财富与流通。外圆内方的造型象征天圆地方，暗合传统宇宙观；成串出现时，代表连绵不绝的财运。若钱纹中央叠加福字或蝙蝠，则构成福到眼前；若与鱼纹结合（如双鱼戏钱），则寓意年年有余，富贵双全。",
                 "file_path": "files/coin_pattern.psd",
-                "file_text": "铜钱纹矢量文件"
+                "file_text": "铜钱纹矢量文件",
+                "location": "同义庆中外货店门头装饰",
+                "culture": "铜钱纹直接取材于古代货币方孔圆钱，其造型定型于秦代半两钱，并在汉代五铢钱时期广泛融入装饰艺术。唐宋时期，铜钱纹成为织物（如锦缎）的常见地纹，寓意财源滚滚。明清时，铜钱纹与蝙蝠、卍字等组合，形成福在眼前、财源广进等经典吉祥图案、家具、服饰。"
             }
         ];
+
+        // 当前选中的纹样索引
+        let currentPatternIndex = -1;
 
         // 进入主页面
         function enterMainPage() {
@@ -550,7 +772,7 @@
             }, 1000);
         }
         
-        // 渲染纹样数据
+        // 渲染纹样数据到主页面
         function renderPatterns() {
             const container = document.getElementById('patternsContainer');
             let html = '';
@@ -562,13 +784,13 @@
                 else if (pattern.category === '几何') categoryClass = 'geometric';
                 
                 html += `
-                    <div class="pattern-card" data-category="${categoryClass}">
+                    <div class="pattern-card" data-category="${categoryClass}" onclick="showPatternDetail(${index})">
                         <div class="image-switcher" id="image-switcher-${index}">
                             <img src="${pattern.image_path}" class="pattern-image" alt="${pattern.name}纹样图"
                                  onerror="handleImageError(this, 'pattern')">
                             <img src="${pattern.real_photo}" class="real-photo hidden" alt="${pattern.name}实物照片"
                                  onerror="handleImageError(this, 'real')">
-                            <button class="image-switch-btn" onclick="switchImage(${index})">查看实物照片</button>
+                            <button class="image-switch-btn" onclick="event.stopPropagation(); switchImage(${index})">查看实物照片</button>
                             <div class="image-error hidden">
                                 <span>图片加载失败</span>
                             </div>
@@ -578,7 +800,7 @@
                             <p class="pattern-description">${pattern.description}</p>
                             <div>
                                 <a href="${pattern.file_path}" class="pattern-download" 
-                                   onclick="return checkFileExists('${pattern.file_path}', event)">
+                                   onclick="event.stopPropagation(); return checkFileExists('${pattern.file_path}', event)">
                                     ${pattern.file_text}
                                 </a>
                             </div>
@@ -588,6 +810,31 @@
             });
             
             container.innerHTML = html;
+        }
+        
+        // 显示纹样详情
+        function showPatternDetail(index) {
+            const pattern = patternsData[index];
+            currentPatternIndex = index;
+            
+            // 隐藏主页面，显示详情页
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('detailContent').style.display = 'block';
+            
+            // 填充详情页数据
+            document.getElementById('detailPatternName').textContent = pattern.name;
+            document.getElementById('detailPatternImage').src = pattern.image_path;
+            document.getElementById('detailRealPhoto').src = pattern.real_photo;
+            document.getElementById('detailDescription').textContent = pattern.description;
+            document.getElementById('detailLocation').textContent = pattern.location;
+            document.getElementById('detailCulture').textContent = pattern.culture;
+            document.getElementById('detailDownload').href = pattern.file_path;
+        }
+        
+        // 返回主页面
+        function backToMain() {
+            document.getElementById('detailContent').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
         }
         
         // 图片切换功能
